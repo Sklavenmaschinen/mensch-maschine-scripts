@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  x86_64-mensch-maschine-worker:
+    build: ../mensch-maschine-worker/.
+    dockerfile: ../mensch-maschine-worker/docker/Dockerfile.x86_64
+    networks:
+      - x86_64-backend
+
+  x86_64-mensch-maschine-db:
+    build: ../mensch-maschine-db/.
+    dockerfile: ../mensch-maschine-db/docker/Dockerfile.x86_64
+    networks:
+      - x86_64-backend
+    volumes:
+      - x86_64-db-data:/var/lib/postgresql/data
+
+  x86_64-mensch-maschine-api:
+    build: ../mensch-maschine-api/.
+    dockerfile: ../mensch-maschine-api/docker/Dockerfile.x86_64
+    networks:
+      - x86_64-backend
+      - x86_64-frontend
+
+  x86_64-mensch-maschine-webapp:
+    build: ../mensch-maschine-webapp/.
+    dockerfile: ../mensch-maschine-webapp/docker/Dockerfile.x86_64
+    networks:
+      - x86_64-frontend
+    ports:
+      - "80:80"
+
+networks:
+  x86_64-backend:
+  x86_64-frontend:
+
+volumes:
+  x86_64-db-data:

@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  arm-mensch-maschine-worker:
+    build: ../mensch-maschine-worker/.
+    dockerfile: ../mensch-maschine-worker/docker/Dockerfile.arm
+    networks:
+      - arm-backend
+
+  arm-mensch-maschine-db:
+    build: ../mensch-maschine-db/.
+    dockerfile: ../mensch-maschine-db/docker/Dockerfile.arm
+    networks:
+      - arm-backend
+    volumes:
+      - arm-db-data:/var/lib/postgresql/data
+
+  arm-mensch-maschine-api:
+    build: ../mensch-maschine-api/.
+    dockerfile: ../mensch-maschine-api/docker/Dockerfile.arm
+    networks:
+      - arm-backend
+      - arm-frontend
+
+  arm-mensch-maschine-webapp:
+    build: ../mensch-maschine-webapp/.
+    dockerfile: ../mensch-maschine-webapp/docker/Dockerfile.arm
+    networks:
+      - arm-frontend
+    ports:
+      - "80:80"
+
+networks:
+  arm-backend:
+  arm-frontend:
+
+volumes:
+  arm-db-data:
